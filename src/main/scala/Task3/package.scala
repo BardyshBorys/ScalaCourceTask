@@ -2,8 +2,6 @@ package object Task3 {
 
   case class Person(name: String, age: Int)
 
-  def dir(x: AnyRef): Unit = println(x.getClass.getMethods.map(_.getName).distinct.sorted.mkString(" "))
-
   trait Validator[T] {
     /**
       * Validates the value.
@@ -37,9 +35,15 @@ package object Task3 {
       */
     def or(other: Validator[T]): Validator[T] = new Validator[T] {
       override def validate(value: T): Either[String, T] = {
-        Validator.this.validate(value) match {
+        val thisValidationResult = Validator.this.validate(value)
+        val otherValidationResult = other.validate(value)
+        thisValidationResult match {
           case Right(v) => Right(v)
-          case Left(_) => other.validate(value)
+          case Left(_) => other.validate(value) match {
+            case Right(v) => Right(v)
+            case Left(_) =>
+              Left("%s, %s".format(thisValidationResult.left.get.toString, otherValidationResult.left.get.toString))
+          }
         }
       }
     }
@@ -57,18 +61,14 @@ package object Task3 {
     }
 
     val positiveInt: Validator[Int] = new Validator[Int] {
-      type value[T] = Either[String, T]
-
       override def validate(t: Int): Either[String, Int] = {
         if (t > 0) Right(t) else Left("Int is negative")
       }
     }
 
     def lessThan(n: Int): Validator[Int] = new Validator[Int] {
-      type value[T] = Either[String, T]
-
       override def validate(t: Int): Either[String, Int] = {
-        if (t < n) Right(t) else Left("Int is negative")
+        if (t < n) Right(t) else Left(f""""$n%s" is less then "$t%s""""")
       }
     }
 
@@ -82,8 +82,6 @@ package object Task3 {
     }
 
     val isPersonValid: Validator[Person] = new Validator[Person] {
-      type value[T] = Either[String, T]
-
       override def validate(value: Person): Either[String, Person] = {
         val message = f"""Person "$value%s" - not valid"""
         if (value.name.length > 0 & value.age <= 99 & value.age >= 1)
