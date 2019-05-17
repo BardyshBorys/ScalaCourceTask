@@ -1,5 +1,8 @@
+import scala.concurrent.Future
+
 package object Task4 {
-  import cats.Monad
+
+  import cats.{Id, Monad}
 
   /**
     * Repository and Service implementation using tagless final pattern.
@@ -10,6 +13,7 @@ package object Task4 {
     */
 
   case class User(id: Long, username: String)
+
   case class IotDevice(id: Long, userId: Long, sn: String)
 
   // NOTE: This import bring into the scope implicits that allow you to call .map and .flatMap on the type F[_]
@@ -17,16 +21,76 @@ package object Task4 {
   import cats.implicits._
 
   trait UserRepository[F[_]] {
+
     def registerUser(username: String): F[User]
+
     def getById(id: Long): F[Option[User]]
+
     def getByUsername(username: String): F[Option[User]]
+
   }
 
   trait IotDeviceRepository[F[_]] {
+
     def registerDevice(userId: Long, serialNumber: String): F[IotDevice]
+
     def getById(id: Long): F[Option[IotDevice]]
+
     def getBySn(sn: String): F[Option[IotDevice]]
+
     def getByUser(userId: Long): F[Seq[IotDevice]]
+
+  }
+
+  class UserRepositoryInMemoryId extends UserRepository[Id] {
+    private var storage: Map[Long, User] = Map()
+
+    override def registerUser(username: String): Id[User] = ???
+
+    override def getById(id: Long): Id[Option[User]] = ???
+
+    override def getByUsername(username: String): Id[Option[User]] = ???
+
+  }
+
+  class UserRepositoryInMemoryFuture extends UserRepository[Future] {
+
+    private var storage: Map[Long, User] = Map()
+
+    override def registerUser(username: String): Future[User] = ???
+
+    override def getById(id: Long): Future[Option[User]] = ???
+
+    override def getByUsername(username: String): Future[Option[User]] = ???
+
+  }
+
+  class IotDeviceRepositoryInMemoryId extends IotDeviceRepository[Id] {
+
+    private var storage: Map[Long, IotDevice] = Map()
+
+    override def registerDevice(userId: Long, serialNumber: String): Id[IotDevice] = ???
+
+    override def getById(id: Long): Id[Option[IotDevice]] = ???
+
+    override def getBySn(sn: String): Id[Option[IotDevice]] = ???
+
+    override def getByUser(userId: Long): Id[Seq[IotDevice]] = ???
+
+  }
+
+  class IotDeviceRepositoryInMemoryFuture extends IotDeviceRepository[Future] {
+
+    private var storage: Map[Long, IotDevice] = Map()
+
+    override def registerDevice(userId: Long, serialNumber: String): Future[IotDevice] = ???
+
+    override def getById(id: Long): Future[Option[IotDevice]] = ???
+
+    override def getBySn(sn: String): Future[Option[IotDevice]] = ???
+
+    override def getByUser(userId: Long): Future[Seq[IotDevice]] = ???
+
   }
 
   class UserService[F[_]](repository: UserRepository[F])
@@ -47,6 +111,7 @@ package object Task4 {
     }
 
     def getByUsername(username: String): F[Option[String]] = ???
+
     def getById(id: Long): F[Option[String]] = ???
   }
 
