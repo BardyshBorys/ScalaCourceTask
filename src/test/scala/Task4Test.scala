@@ -2,7 +2,7 @@ import Task3.Validator._
 import Task3._
 import org.scalatest.FunSuite
 
-class Task3Test extends FunSuite {
+class Task4Test extends FunSuite {
 
   test("Task3.validator") {
     assert((2 validate (lessThan(10) and positiveInt)).isRight)
