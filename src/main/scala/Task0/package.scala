@@ -1,5 +1,7 @@
 import java.io.File
 
+import scopt._
+
 import scala.collection.immutable.Map
 
 

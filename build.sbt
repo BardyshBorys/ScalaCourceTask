@@ -13,16 +13,19 @@ lazy val dependencies =
     val scalatestV = "3.0.4"
     val scalacheckV = "1.13.5"
     val scoptV = "3.7.1"
+    val catsV = "1.6.0"
 
     val scalatest = "org.scalatest" %% "scalatest" % scalatestV
     val scalacheck = "org.scalacheck" %% "scalacheck" % scalacheckV
     val scopt = "com.github.scopt" %% "scopt" % scoptV
+    val cats = "org.typelevel" %% "cats-core" % catsV
   }
 
 lazy val commonDependencies = Seq(
   dependencies.scalatest % "test",
   dependencies.scalacheck % "test",
-  dependencies.scopt
+  dependencies.scopt,
+  dependencies.cats
 )
 
 libraryDependencies ++= commonDependencies
