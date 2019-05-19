@@ -9,6 +9,7 @@
         Task1 - Recursive retry Function
         Task2 - Recursive retry Function with Future
         Task3 - Validator package
+        Task4 - Tagless package
 
     src/main/test
         crimes        - folder with test data for Task0 
@@ -20,3 +21,4 @@
             Task1Test - recursion depth and timing test for retry function from Task1 package
             Task2Test - recursion depth and timing test for retry function from Task2 package
             Task3Test - test for Validator package
+            Task4Test - test for Tagless Final package
