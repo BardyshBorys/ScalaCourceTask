@@ -1,4 +1,5 @@
 import Task2._
+import org.scalatest.FunSuite
 
 import scala.concurrent.duration._
 
@@ -8,14 +9,18 @@ class Task2Test extends FunSuite {
     val retries = List(0.seconds, 1.seconds, 2.seconds)
     var recursionDepth = 0
     retryFuture[Int](
-      block = () => {recursionDepth += 1; 1 + 2},
+      block = () => {
+        recursionDepth += 1; 1 + 2
+      },
       acceptResult = res => res % 2 == 0,
       retries = retries
     )
     assert(recursionDepth == retries.length + 1)
     recursionDepth = 0
     retryFuture[Int](
-      block = () => {recursionDepth += 1; 1 + 1},
+      block = () => {
+        recursionDepth += 1; 1 + 1
+      },
       acceptResult = res => res % 2 == 0,
       retries = retries
     )

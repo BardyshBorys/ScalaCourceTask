@@ -1,6 +1,6 @@
 import Task3.Validator._
 import Task3._
-
+import org.scalatest.FunSuite
 
 class Task3Test extends FunSuite {
 

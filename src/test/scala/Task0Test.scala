@@ -1,6 +1,7 @@
 import java.io.ByteArrayOutputStream
 
 import Task0._
+import org.scalatest.FunSuite
 
 import scala.io.Source
 
